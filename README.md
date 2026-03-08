@@ -1,42 +1,44 @@
-# APT-Tutorial-Week-2  
-## Learning Logs – Tutorial 2  
+# APT-Workshop-Week-2  
+## Learning Logs – Workshop 2  
 ### (Terminal + DAO + MySQL)
 
-In Tutorial 1, topics were stored only in Java collections (in memory).  
-This means once the application was closed, all data was permanently lost.  
-There was no persistence, no real database, and no proper data management structure.
+In **Workshop 1**, entries were stored only in **Java collections (in memory)**.
 
-Because of this limitation:
+This created several limitations:
 
-- Data did not survive application restart  
-- The system could not scale  
-- It did not reflect how real-world applications store data  
+- Data disappeared when the application closed  
+- No persistent storage existed  
+- The application did not reflect real-world system design  
 
-In Tutorial 2, we solve this problem by moving the application to a **MySQL database** and implementing the **DAO pattern**.
+Real applications store data in **databases**, not temporary memory.
+
+In **Workshop 2**, we solve this problem by connecting the application to a **MySQL database** and implementing the **DAO (Data Access Object) pattern**.
 
 Now:
 
-- Data is permanently stored  
-- Topics remain available even after restarting the application  
-- The project follows a more realistic software architecture  
+- Entries are stored permanently in MySQL  
+- Data remains available after restarting the application  
+- The system follows a more realistic **database-driven architecture**
+
 ---
 
-## Objective
+# Objective
 
 Convert the Learning Logs application to use:
 
-- MySQL database  
-- JDBC  
-- DAO architecture  
-- Maven for build & execution  
+- **MySQL database**
+- **JDBC**
+- **DAO architecture**
+- **Maven for build & execution**
 
-This tutorial focuses working on **Topics only**.
+This workshop focuses on working with **Learning Entries**.
 
-
+Students will implement the **EntryDAO** methods to store and retrieve entries from the database.
 
 ---
 
-## Tasks to Complete
+# Tasks to Complete
+
 
 ### Task 1: Setup the Database
 
@@ -54,71 +56,100 @@ This will:
 
 ---
 
-### Task 2: Implement TopicDAO
+## Task 2: Implement EntryDAO
 
-Implement the following methods inside `TopicDAO`:
+Implement the following methods inside `EntryDAO`.
 
-- `insertTopic(Topic topic)`
-- `fetchAllTopics()`
+### Required Methods
 
-Your application must now:
+```java
+boolean insertEntry(Entry entry);
 
-- Add topics into MySQL
-- Retrieve topics from MySQL
-- No longer use Java collections for storage
-
----
-
-## Constraints
-
-- Terminal-based program only  
-- Must use MySQL  
-- Must use JDBC  
-- Must follow DAO pattern  
-- No frameworks (no Spring, no Hibernate)  
-- Keep code simple and readable  
-
----
-
-## Some Test Cases (Topics – Database Based)
-
-These test cases help verify that data is actually stored in the database.
-
-| TC | Description | Input | Expected Result |
-|----|------------|-------|----------------|
-| 1 | Add a single topic | Programming | Topic inserted into DB and displayed when viewing |
-| 2 | Add multiple topics | Java, MySQL | Both appear when fetching all topics |
-| 3 | View topics after restarting app | Restart app → View Topics | Previously added topics still exist (proves DB persistence) |
-| 4 | View topics when DB is empty | View Topics | Message shown: No topics available |
-| 5 | Add topic with empty name | Press Enter | Topic is not inserted |
-| 6 | Verify auto-generated ID | Add topic | ID is generated automatically by database |
-
----
-
-## SQL Files
-
-Inside the `sql` folder:
-
-- `learninglogs.sql` → Creates database and `topics` table  
-- `seed.sql` → Inserts sample topics (optional)
-
-Run inside MySQL:
-
-```sql
-source db/learninglogs.sql;
-source db/seed.sql;
+ArrayList<Entry> fetchAllEntries();
 ```
 
+### Bonus Method
+
+```java
+HashMap<Integer, Entry> fetchEntriesByTopic(String topic);
+```
 
 ---
 
-## What You Learn in This Tutorial
+## Application Behavior
 
-- Connecting Java to MySQL  
-- Using `PreparedStatement`  
-- Retrieving auto-generated keys  
-- Persisting data permanently  
-- Implementing DAO cleanly  
-- Understanding the difference between memory storage and database storage  
+Your program must now:
+
+- Insert learning entries into **MySQL**
+- Retrieve entries from **MySQL**
+- Display entries in the **terminal**
+- No longer store entries in **Java collections**
 
 ---
+
+# Constraints
+
+- Terminal-based program only  
+- Must use **MySQL**  
+- Must use **JDBC**  
+- Must follow **DAO pattern**  
+- No frameworks (No Spring / No Hibernate)  
+- Keep the code **simple and readable**
+
+---
+
+# Test Cases
+
+## Compulsory Tasks (Core Functionality)
+
+These test cases verify that the **required DAO methods** work correctly.
+
+Methods being tested:
+
+```java
+boolean insertEntry(Entry entry);
+ArrayList<Entry> fetchAllEntries();
+```
+
+| TC | Description | Input | Expected Result |
+|----|-------------|------|----------------|
+| 1 | Insert a single entry | Topic: Java, Text: Learned about classes | Entry successfully inserted into database |
+| 2 | Insert multiple entries | Entries under Java and MySQL topics | All entries stored correctly in DB |
+| 3 | Fetch all entries | View entries command | All stored entries displayed in terminal |
+| 4 | Restart application and fetch entries | Restart app → View entries | Previously stored entries still exist |
+| 5 | Insert entry with empty text | Press Enter for entry text | Entry should not be inserted |
+| 6 | Insert entry with long text | Large learning note | Entry inserted successfully |
+| 7 | Fetch entries when database has no entries | View entries | Message displayed: `No entries available` |
+| 8 | Verify auto-generated entry ID | Insert entry | Database automatically generates ID |
+
+---
+
+## Bonus Task (Advanced Query)
+
+These test cases verify the **optional DAO method**.
+
+Method being tested:
+
+```java
+HashMap<Integer, Entry> fetchEntriesByTopic(String topic);
+```
+
+| TC | Description | Input | Expected Result |
+|----|-------------|------|----------------|
+| B1 | Fetch entries for a valid topic | Topic: Java | Only entries related to Java returned |
+| B2 | Fetch entries for another topic | Topic: MySQL | Only MySQL entries returned |
+| B3 | Fetch entries for topic with no entries | Topic: Python | Empty result returned |
+| B4 | Fetch entries for non-existing topic | Topic: Blockchain | Handled gracefully (empty result or message) |
+| B5 | Verify map structure | Topic: Java | Returned structure contains TopicID → Entry mapping |
+
+---
+
+# What You Learn in This Workshop
+
+- Connecting **Java to MySQL**
+- Using **JDBC**
+- Working with **PreparedStatement**
+- Inserting records into a database
+- Fetching records from a database
+- Structuring code using the **DAO pattern**
+- Understanding **persistent storage vs memory storage**
