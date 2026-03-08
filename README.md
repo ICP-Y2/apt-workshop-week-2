@@ -136,11 +136,11 @@ HashMap<Integer, Entry> fetchEntriesByTopic(String topic);
 
 | TC | Description | Input | Expected Result |
 |----|-------------|------|----------------|
-| B1 | Fetch entries for a valid topic | Topic: Java | Only entries related to Java returned |
-| B2 | Fetch entries for another topic | Topic: MySQL | Only MySQL entries returned |
-| B3 | Fetch entries for topic with no entries | Topic: Python | Empty result returned |
-| B4 | Fetch entries for non-existing topic | Topic: Blockchain | Handled gracefully (empty result or message) |
-| B5 | Verify map structure | Topic: Java | Returned structure contains TopicID → Entry mapping |
+| 1 | Fetch entries for a valid topic | Topic: Java | Only entries related to Java returned |
+| 2 | Fetch entries for another topic | Topic: MySQL | Only MySQL entries returned |
+| 3 | Fetch entries for topic with no entries | Topic: Python | Empty result returned |
+| 4 | Fetch entries for non-existing topic | Topic: Blockchain | Handled gracefully (empty result or message) |
+| 5 | Verify map structure | Topic: Java | Returned structure contains TopicID → Entry mapping |
 
 ---
 
