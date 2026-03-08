@@ -17,6 +17,24 @@ public class TopicDAO implements TopicDAOInterface {
     // - Return true if successful
     @Override
     public boolean insertTopic(Topic topic) {
+        String query = "INSERT INTO topics(name) VALUES (?)";
+    	try {
+			Connection conn = DatabaseConnection.getConnection();
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setString(1, topic.getName());
+			int rows = ps.executeUpdate();
+			if(rows > 0)
+			{
+				return true;
+			}
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return false;
     }
 
@@ -27,6 +45,27 @@ public class TopicDAO implements TopicDAOInterface {
     // - Store in ArrayList and return
     @Override
     public ArrayList<Topic> fetchAllTopics() {
-        return new ArrayList<>();
+        String query = "SELECT * from topics";
+    	ArrayList<Topic> topics = new ArrayList<>();
+    	try {
+			Connection conn = DatabaseConnection.getConnection();
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet topicSet = ps.executeQuery();
+			while(topicSet.next())
+			{
+				Topic topic = new Topic(topicSet.getString("name"));
+				topics.add(topic);
+			}
+			
+			return topics;
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return topics;
     }
 }
